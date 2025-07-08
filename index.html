@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoldMAN Trading</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans">
+  <div class="max-w-4xl mx-auto p-6">
+    <!-- Header -->
+    <header class="text-center mb-10">
+      <h1 class="text-4xl font-bold mb-2">GoldMAN Trading</h1>
+      <p class="text-gray-400">Портфель криптовалют и трекинг</p>
+      <a href="https://www.youtube.com/@GoldMANTrading" target="_blank" class="inline-block mt-4 text-blue-400 underline">YouTube канал</a>
+    </header>
+
+    <!-- Portfolio Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">Портфель</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- BTC -->
+        <div class="bg-gray-800 p-4 rounded-xl shadow">
+          <h3 class="text-xl font-bold mb-1">Bitcoin (BTC)</h3>
+          <p class="text-gray-400">Позиция: 0.5 BTC</p>
+          <p class="text-gray-400">Средняя цена входа: $33,629</p>
+          <p class="text-green-400">P&L: <span id="btc-pnl">+223.63%</span></p>
+        </div>
+        <!-- ETH -->
+        <div class="bg-gray-800 p-4 rounded-xl shadow">
+          <h3 class="text-xl font-bold mb-1">Ethereum (ETH)</h3>
+          <p class="text-gray-400">Позиция: 2 ETH</p>
+          <p class="text-gray-400">Средняя цена входа: $1,715</p>
+          <p class="text-green-400">P&L: <span id="eth-pnl">+50.29%</span></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ETH Graph Section -->
+    <section class="mb-12">
+      <h2 class="text-2xl font-semibold mb-4">График портфеля (ETH)</h2>
+      <div class="bg-gray-800 p-4 rounded-xl mb-6">
+        <canvas id="ethChart"></canvas>
+      </div>
+
+      <h2 class="text-2xl font-semibold mb-4">График портфеля (BTC)</h2>
+      <div class="bg-gray-800 p-4 rounded-xl">
+        <canvas id="btcChart"></canvas>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="text-center text-gray-600 text-sm mt-10">
+      &copy; 2025 GoldMAN Trading. Все права защищены.
+    </footer>
+  </div>
+
+  <!-- Chart Scripts -->
+  <script>
+    const ethCtx = document.getElementById('ethChart').getContext('2d');
+    new Chart(ethCtx, {
+      type: 'line',
+      data: {
+        labels: [
+          "2021-02-01", "2021-02-17", "2021-03-24", "2021-04-11", "2021-05-12",
+          "2021-05-19", "2021-05-21", "2021-06-24", "2021-07-04", "2021-07-31",
+          "2021-11-30", "2021-12-23", "2022-05-10", "2022-06-13", "2022-06-16",
+          "2024-01-08", "2025-04-18"
+        ],
+        datasets: [{
+          label: 'Цена ETH (USD)',
+          data: [1342.00, 1834.00, 1727.55, 2153.00, 4109.92, 2690.00, 2373.19, 1970.00,
+                 2313.96, 2424.00, 4669.47, 3933.71, 2321.29, 1238.00, 1224.00, 2268.22, 1589.13],
+          borderColor: 'cyan',
+          backgroundColor: 'rgba(0, 255, 255, 0.1)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.3,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: 'white' } }
+        },
+        scales: {
+          x: { ticks: { color: 'white' }, grid: { color: '#444' } },
+          y: { ticks: { color: 'white' }, grid: { color: '#444' } }
+        }
+      }
+    });
+
+    const btcCtx = document.getElementById('btcChart').getContext('2d');
+    new Chart(btcCtx, {
+      type: 'line',
+      data: {
+        labels: [
+          "2021-01-11", "2021-03-24", "2021-04-13", "2021-05-05", "2021-05-12", "2021-05-22", "2021-06-14",
+          "2021-08-29", "2021-10-08", "2021-11-04", "2021-11-13", "2021-12-01", "2021-12-04", "2021-12-14",
+          "2022-01-14", "2022-02-28", "2022-03-25", "2022-04-10", "2022-04-12", "2022-04-15", "2022-04-17",
+          "2022-04-18", "2022-04-28", "2022-05-01", "2022-05-05", "2022-05-06", "2022-05-07", "2022-05-09",
+          "2022-05-10", "2022-05-15", "2022-05-26", "2022-05-27", "2022-06-02", "2022-06-13", "2022-06-16",
+          "2022-09-10", "2022-10-07", "2023-05-31", "2023-09-21"
+        ],
+        datasets: [{
+          label: 'Цена BTC (USD)',
+          data: [36200.00, 57000.00, 63356.57, 57500.00, 57117.00, 38184.00, 38844.00,
+                 48458.00, 54830.00, 61555.21, 63900.00, 57144.50, 46637.00, 46639.47,
+                 43058.18, 40925.49, 44330.00, 43321.34, 40235.00, 40300.00, 40300.00,
+                 40652.00, 39196.00, 38562.00, 36964.00, 36384.00, 35010.00, 32000.00,
+                 31015.39, 29708.00, 29798.00, 29588.00, 29979.00, 23709.00, 22323.00,
+                 21318.80, 19451.90, 27050.00, 26613.00],
+          borderColor: 'orange',
+          backgroundColor: 'rgba(255, 165, 0, 0.1)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.3,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { labels: { color: 'white' } }
+        },
+        scales: {
+          x: { ticks: { color: 'white' }, grid: { color: '#444' } },
+          y: { ticks: { color: 'white' }, grid: { color: '#444' } }
+        }
+      }
+    });
+
+    // Dynamic P&L Update
+    async function updatePNL() {
+      const btcEntry = 33629;
+      const ethEntry = 1715;
+
+      const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum&vs_currencies=usd');
+      const data = await res.json();
+
+      const btcNow = data.bitcoin.usd;
+      const ethNow = data.ethereum.usd;
+
+      const btcPnl = (((btcNow - btcEntry) / btcEntry) * 100).toFixed(2);
+      const ethPnl = (((ethNow - ethEntry) / ethEntry) * 100).toFixed(2);
+
+      document.getElementById('btc-pnl').innerText = `${btcPnl > 0 ? '+' : ''}${btcPnl}%`;
+      document.getElementById('eth-pnl').innerText = `${ethPnl > 0 ? '+' : ''}${ethPnl}%`;
+    }
+
+    updatePNL();
+    setInterval(updatePNL, 300000); // обновлять каждые 5 минут
+  </script>
+</body>
+</html>
